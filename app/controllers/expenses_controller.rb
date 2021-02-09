@@ -10,7 +10,7 @@ class ExpensesController < ApplicationController
 
   # GET /expenses/1
   def show
-    render json: @expense
+    render json: @expensed
   end
 
   # POST /expenses

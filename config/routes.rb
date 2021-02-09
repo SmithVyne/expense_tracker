@@ -3,4 +3,6 @@ Rails.application.routes.draw do
   resources :expenses
   resources :categories
   resources :users, only: [:create, :show]
+
+  post 'login' => 'users#show'
 end
