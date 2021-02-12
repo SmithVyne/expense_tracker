@@ -12,7 +12,11 @@ class UsersController < ApplicationController
   end
 
   def show
-    render json: @user
+    if @user
+      render json: @user
+    else
+      render json: @user, status: :not_found
+    end
   end
 
   private
