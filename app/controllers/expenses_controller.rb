@@ -3,7 +3,7 @@ class ExpensesController < ApplicationController
 
   # GET /expenses
   def index
-    @expenses = Expense.all.group_by{|c| c.category_id
+    @expenses = Expense.all.group_by{|c| c.category_id}
 
     render json: @expenses
   end
