@@ -3,7 +3,8 @@ class CategoriesController < ApplicationController
 
   # GET /categories
   def index
-    @categories = Category.all
+    date = Date.parse(params[:category_date])
+    @categories = Category.where(created_at: date.midnight..date.end_of_day)
 
     render json: @categories
   end
@@ -46,6 +47,6 @@ class CategoriesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def category_params
-      params.permit(:limit, :user_id, :total, :name)
+      params.require(:category).permit(:limit, :user_id, :total, :name)
     end
 end

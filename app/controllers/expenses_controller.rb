@@ -3,7 +3,8 @@ class ExpensesController < ApplicationController
 
   # GET /expenses
   def index
-    @expenses = Expense.all.group_by{|c| c.category_id}
+    date = Date.parse(params[:expense_date])
+    @expenses = Expense.where(created_at: date.midnight..date.end_of_day).group_by{|c| c.category_id}
 
     render json: @expenses
   end
@@ -18,6 +19,7 @@ class ExpensesController < ApplicationController
     @expense = Expense.new(expense_params)
 
     if @expense.save
+      @expense.category.increment!(:total, @expense.amount)
       render json: @expense, status: :created, location: @expense
     else
       render json: @expense.errors, status: :unprocessable_entity
@@ -46,6 +48,6 @@ class ExpensesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def expense_params
-      params.permit(:title, :amount, :category_id)
+      params.require(:expense).permit(:title, :amount, :category_id)
     end
 end
