@@ -4,7 +4,7 @@ class CategoriesController < ApplicationController
   # GET /categories
   def index
     date = Date.parse(params[:category_date])
-    @categories = Category.where(created_at: date.midnight..date.end_of_day)
+    @categories = Category.where(user: params[:user], created_at: date.midnight..date.end_of_day)
 
     render json: @categories
   end
